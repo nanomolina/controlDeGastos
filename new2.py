@@ -39,17 +39,35 @@ class Ui_MainWindow(object):
         MainWindow.resize(462, 715)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.db = Database()
+        self.initCalendar()
+        self.initTableWidget()
+        self.initInputs()
+        self.initButtons()
+        self.initLabels()
+        MainWindow.setCentralWidget(self.centralwidget)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QObject.connect(self.calendarWidget, QtCore.SIGNAL(_fromUtf8("clicked(QDate)")), self.dateTimeEdit.setDate)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.button_accepted)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.tableWidget.scrollToBottom)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), self.button_rejected)
+        QtCore.QObject.connect(self.commandLinkButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.save_changes)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def initCalendar(self):
         self.calendarWidget = QtGui.QCalendarWidget(self.centralwidget)
-        self.calendarWidget.setGeometry(QtCore.QRect(0, 0, 448, 172))
+        self.calendarWidget.setGeometry(QtCore.QRect(5, 30, 448, 172))
         self.calendarWidget.setObjectName(_fromUtf8("calendarWidget"))
         self.calendarWidget.setGridVisible(True)
         self.today = self.calendarWidget.selectedDate()
+
+    def initTableWidget(self):
         self.tableWidget = QtGui.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(0, 180, 451, 381))
+        self.tableWidget.setGeometry(QtCore.QRect(5, 210, 451, 381))
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
         self.rows_added = 0
         self.tableWidget.setColumnCount(4)
-        self.db = Database() #Base de datos
         self.rowCount = self.db.get_row_count()
         self.db_products = self.db.get_products()
         self.db_prices = self.db.get_prices()
@@ -73,34 +91,40 @@ class Ui_MainWindow(object):
             self.tableWidget.setItem(row, COL_DATE, item)
             item = QtGui.QTableWidgetItem()
             self.tableWidget.setItem(row, COL_BUYER, item)
-        self.lineEdit_1 = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit_1.setGeometry(QtCore.QRect(10, 640, 113, 27))
-        self.lineEdit_1.setObjectName(_fromUtf8("lineEdit_1"))
-        self.lineEdit_2 = QtGui.QLineEdit(self.centralwidget)
-        self.lineEdit_2.setGeometry(QtCore.QRect(340, 640, 113, 27))
-        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
         self.line = QtGui.QFrame(self.centralwidget)
-        self.line.setGeometry(QtCore.QRect(0, 560, 451, 16))
+        self.line.setGeometry(QtCore.QRect(0, 590, 451, 16))
         self.line.setFrameShape(QtGui.QFrame.HLine)
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
-        self.buttonBox = QtGui.QDialogButtonBox(self.centralwidget)
-        self.buttonBox.setGeometry(QtCore.QRect(280, 680, 176, 27))
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-        self.dateTimeEdit = QtGui.QDateTimeEdit(self.centralwidget)
-        self.dateTimeEdit.setGeometry(QtCore.QRect(200, 640, 131, 27))
-        self.dateTimeEdit.setObjectName(_fromUtf8("dateTimeEdit"))
-        self.time_zero = self.dateTimeEdit.time()
+
+    def initInputs(self):
+        self.lineEdit_1 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit_1.setGeometry(QtCore.QRect(10, 640, 113, 27))
+        self.lineEdit_1.setObjectName(_fromUtf8("lineEdit_1"))
         self.doubleSpinBox = QtGui.QDoubleSpinBox(self.centralwidget)
         self.doubleSpinBox.setGeometry(QtCore.QRect(130, 640, 62, 27))
         self.doubleSpinBox.setMaximum(MAXIMUM)
         self.doubleSpinBox.setObjectName(_fromUtf8("doubleSpinBox"))
+        self.dateTimeEdit = QtGui.QDateTimeEdit(self.centralwidget)
+        self.dateTimeEdit.setGeometry(QtCore.QRect(200, 640, 131, 27))
+        self.dateTimeEdit.setObjectName(_fromUtf8("dateTimeEdit"))
+        self.time_zero = self.dateTimeEdit.time()
+        self.lineEdit_2 = QtGui.QLineEdit(self.centralwidget)
+        self.lineEdit_2.setGeometry(QtCore.QRect(340, 640, 113, 27))
+        self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
+
+    def initButtons(self):
         self.commandLinkButton = QtGui.QCommandLinkButton(self.centralwidget)
         self.commandLinkButton.setGeometry(QtCore.QRect(10, 670, 185, 41))
         self.commandLinkButton.setObjectName(_fromUtf8("commandLinkButton"))
+        self.buttonBox = QtGui.QDialogButtonBox(self.centralwidget)
+        self.buttonBox.setGeometry(QtCore.QRect(280, 680, 176, 27))
+        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+
+    def initLabels(self):
         self.label1 = QtGui.QLabel(self.centralwidget)
-        self.label1.setGeometry(QtCore.QRect(10, 570, 350, 20))
+        self.label1.setGeometry(QtCore.QRect(10, 610, 350, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
@@ -108,7 +132,7 @@ class Ui_MainWindow(object):
         self.label1.setFont(font)
         self.label1.setObjectName(_fromUtf8("label2"))
         self.label2 = QtGui.QLabel(self.centralwidget)
-        self.label2.setGeometry(QtCore.QRect(10, 593, 350, 20))
+        self.label2.setGeometry(QtCore.QRect(160, 610, 350, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
@@ -116,26 +140,25 @@ class Ui_MainWindow(object):
         self.label2.setFont(font)
         self.label2.setObjectName(_fromUtf8("label2"))
         self.label3 = QtGui.QLabel(self.centralwidget)
-        self.label3.setGeometry(QtCore.QRect(10, 616, 350, 20))
+        self.label3.setGeometry(QtCore.QRect(310, 610, 350, 20))
         font = QtGui.QFont()
         font.setPointSize(14)
         font.setBold(True)
         font.setWeight(75)
         self.label3.setFont(font)
         self.label3.setObjectName(_fromUtf8("label3"))
-        MainWindow.setCentralWidget(self.centralwidget)
-
-        self.retranslateUi(MainWindow)
-        QtCore.QObject.connect(self.calendarWidget, QtCore.SIGNAL(_fromUtf8("clicked(QDate)")), self.dateTimeEdit.setDate)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.button_accepted)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.tableWidget.scrollToBottom)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), self.button_rejected)
-        QtCore.QObject.connect(self.commandLinkButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.save_changes)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Control de Gastos", None))
         self.commandLinkButton.setText(_translate("MainWindow", "Guardar Cambios", None))
+        self.setColumnName()
+        self.uploadingInformation()
+        self.addCosts()
+        self.label1.setText(_translate("MainWindow", "Inicial: %6.2f" % SALARY, None))
+        self.label2.setText(_translate("MainWindow", "Gastos: %6.2f" % self.expense, None))
+        self.label3.setText(_translate("MainWindow", "Resto: %6.2f" % self.rest, None))
+
+    def setColumnName(self):
         item = self.tableWidget.horizontalHeaderItem(COL_PRODUCT)
         item.setText(_translate("MainWindow", "Producto", None))
         item = self.tableWidget.horizontalHeaderItem(COL_PRICE)
@@ -144,6 +167,8 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Fecha", None))
         item = self.tableWidget.horizontalHeaderItem(COL_BUYER)
         item.setText(_translate("MainWindow", "Comprador", None))
+
+    def uploadingInformation(self):
         __sortingEnabled = self.tableWidget.isSortingEnabled()
         self.tableWidget.setSortingEnabled(False)
         for row in range(self.rowCount):
@@ -156,10 +181,6 @@ class Ui_MainWindow(object):
             item = self.tableWidget.item(row, COL_BUYER)
             item.setText(_translate("MainWindow", self.db_buyers[row], None))
         self.tableWidget.setSortingEnabled(__sortingEnabled)
-        self.updateInfo()
-        self.label1.setText(_translate("MainWindow", "Inicial: %6.2f" % SALARY, None))
-        self.label2.setText(_translate("MainWindow", "Gastos: %6.2f" % self.expense, None))
-        self.label3.setText(_translate("MainWindow", "Resto: %6.2f" % self.rest, None))
 
     def button_accepted(self):
         self.tableWidget.insertRow(self.rowCount)
@@ -212,13 +233,12 @@ class Ui_MainWindow(object):
             self.db.insert_data(str(product), float(price), str(date), str(name))
         self.rows_added = 0
 
-    def updateInfo(self):
+    def addCosts(self):
         self.expense = 0
         for row in range(self.rowCount):
             item = self.tableWidget.item(row, COL_PRICE)
             self.expense += float(item.text())
         self.rest = SALARY - self.expense
-
 
 def delete_accent(string):
     s = ''.join((c for c in unicodedata.normalize('NFD',unicode(string)) if unicodedata.category(c) != 'Mn'))
