@@ -20,6 +20,11 @@ COL_DATE = 2
 COL_BUYER = 3
 
 try:
+    import application_rc3
+except ImportError:
+    import application_rc2
+
+try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
     def _fromUtf8(s):
@@ -39,6 +44,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(462, 715)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
+        self.initToolBar(MainWindow)
         self.db = Database()
         self.initCalendar()
         self.initTableWidget()
@@ -54,6 +60,29 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), self.button_rejected)
         QtCore.QObject.connect(self.commandLinkButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.save_changes)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def initToolBar(self, MainWindow):
+        self.toolBar = QtGui.QToolBar(MainWindow)
+        self.toolBar.setObjectName(_fromUtf8("toolBar"))
+        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
+        self.actionOpen = QtGui.QAction(MainWindow)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/images/open.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionOpen.setIcon(icon)
+        self.actionOpen.setObjectName(_fromUtf8("actionOpen"))
+        self.actionNew = QtGui.QAction(MainWindow)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(_fromUtf8(":/images/new.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionNew.setIcon(icon1)
+        self.actionNew.setObjectName(_fromUtf8("actionNew"))
+        self.actionSave = QtGui.QAction(MainWindow)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(_fromUtf8(":/images/save.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionSave.setIcon(icon2)
+        self.actionSave.setObjectName(_fromUtf8("actionSave"))
+        self.toolBar.addAction(self.actionNew)
+        self.toolBar.addAction(self.actionOpen)
+        self.toolBar.addAction(self.actionSave)
 
     def initCalendar(self):
         self.calendarWidget = QtGui.QCalendarWidget(self.centralwidget)
@@ -150,6 +179,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Control de Gastos", None))
+        self.setActions()
         self.commandLinkButton.setText(_translate("MainWindow", "Guardar Cambios", None))
         self.setColumnName()
         self.uploadingInformation()
@@ -157,6 +187,15 @@ class Ui_MainWindow(object):
         self.label1.setText(_translate("MainWindow", "Inicial: %6.2f" % SALARY, None))
         self.label2.setText(_translate("MainWindow", "Gastos: %6.2f" % self.expense, None))
         self.label3.setText(_translate("MainWindow", "Resto: %6.2f" % self.rest, None))
+
+    def setActions(self):
+        self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
+        self.actionOpen.setText(_translate("MainWindow", "&Open", None))
+        self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O", None))
+        self.actionNew.setText(_translate("MainWindow", "&New", None))
+        self.actionNew.setShortcut(_translate("MainWindow", "Ctrl+N", None))
+        self.actionSave.setText(_translate("MainWindow", "&Save", None))
+        self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S", None))
 
     def setColumnName(self):
         item = self.tableWidget.horizontalHeaderItem(COL_PRODUCT)
