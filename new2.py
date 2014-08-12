@@ -59,7 +59,13 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.tableWidget.scrollToBottom)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), self.button_rejected)
         QtCore.QObject.connect(self.commandLinkButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.save_changes)
+        QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("triggered()")), self.nada)
+        QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.nada)
+        QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL(_fromUtf8("triggered()")), self.save_changes)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def nada(self):
+        print "hola"
 
     def initToolBar(self, MainWindow):
         self.toolBar = QtGui.QToolBar(MainWindow)
