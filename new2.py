@@ -18,6 +18,8 @@ COL_PRODUCT = 0
 COL_PRICE = 1
 COL_DATE = 2
 COL_BUYER = 3
+ORANGE = "#FF4000"
+COLOR = "#FF4000"
 
 try:
     import application_rc3
@@ -42,6 +44,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(462, 715)
+#        MainWindow.setStyleSheet("background-color:#F5A9F2;")
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.initToolBar(MainWindow)
@@ -51,6 +54,7 @@ class Ui_MainWindow(object):
         self.initInputs()
         self.initButtons()
         self.initLabels()
+        
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -58,7 +62,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.button_accepted)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.tableWidget.scrollToBottom)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), self.button_rejected)
-        QtCore.QObject.connect(self.commandLinkButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.save_changes)
+#        QtCore.QObject.connect(self.commandLinkButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.save_changes)
         QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("triggered()")), self.nada)
         QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.nada)
         QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL(_fromUtf8("triggered()")), self.save_changes)
@@ -70,6 +74,7 @@ class Ui_MainWindow(object):
     def initToolBar(self, MainWindow):
         self.toolBar = QtGui.QToolBar(MainWindow)
         self.toolBar.setObjectName(_fromUtf8("toolBar"))
+        self.toolBar.setStyleSheet("background-color:#2E2E2E;")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.actionOpen = QtGui.QAction(MainWindow)
         icon = QtGui.QIcon()
@@ -92,15 +97,22 @@ class Ui_MainWindow(object):
 
     def initCalendar(self):
         self.calendarWidget = QtGui.QCalendarWidget(self.centralwidget)
-        self.calendarWidget.setGeometry(QtCore.QRect(5, 0, 448, 172))
+        self.calendarWidget.setGeometry(QtCore.QRect(5, 0, 448, 180))
         self.calendarWidget.setObjectName(_fromUtf8("calendarWidget"))
         self.calendarWidget.setGridVisible(True)
+#        self.calendarWidget.setStyleSheet("color:%s;" % COLOR)
         self.today = self.calendarWidget.selectedDate()
 
     def initTableWidget(self):
         self.tableWidget = QtGui.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(5, 180, 451, 381))
+        self.tableWidget.setGeometry(QtCore.QRect(5, 190, 451, 370))
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
+        self.tableWidget.setStyleSheet("color:%s;" % COLOR)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.tableWidget.setFont(font)
         self.rows_added = 0
         self.tableWidget.setColumnCount(4)
         self.rowCount = self.db.get_row_count()
@@ -136,26 +148,32 @@ class Ui_MainWindow(object):
         self.lineEdit_1 = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit_1.setGeometry(QtCore.QRect(10, 610, 113, 27))
         self.lineEdit_1.setObjectName(_fromUtf8("lineEdit_1"))
+        self.lineEdit_1.setStyleSheet("color:%s;" % COLOR)
         self.doubleSpinBox = QtGui.QDoubleSpinBox(self.centralwidget)
         self.doubleSpinBox.setGeometry(QtCore.QRect(130, 610, 62, 27))
         self.doubleSpinBox.setMaximum(MAXIMUM)
         self.doubleSpinBox.setObjectName(_fromUtf8("doubleSpinBox"))
+        self.doubleSpinBox.setStyleSheet("color:%s;" % COLOR)
         self.dateTimeEdit = QtGui.QDateTimeEdit(self.centralwidget)
         self.dateTimeEdit.setGeometry(QtCore.QRect(200, 610, 131, 27))
         self.dateTimeEdit.setObjectName(_fromUtf8("dateTimeEdit"))
+        self.dateTimeEdit.setStyleSheet("color:%s;" % COLOR)
         self.time_zero = self.dateTimeEdit.time()
         self.lineEdit_2 = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit_2.setGeometry(QtCore.QRect(340, 610, 113, 27))
         self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
+        self.lineEdit_2.setStyleSheet("color:%s;" % COLOR)
 
     def initButtons(self):
-        self.commandLinkButton = QtGui.QCommandLinkButton(self.centralwidget)
-        self.commandLinkButton.setGeometry(QtCore.QRect(10, 635, 185, 41))
-        self.commandLinkButton.setObjectName(_fromUtf8("commandLinkButton"))
+#        self.commandLinkButton = QtGui.QCommandLinkButton(self.centralwidget)
+#        self.commandLinkButton.setGeometry(QtCore.QRect(10, 635, 185, 41))
+#        self.commandLinkButton.setObjectName(_fromUtf8("commandLinkButton"))
+#        self.commandLinkButton.setStyleSheet("background-color:%s;" % COLOR)
         self.buttonBox = QtGui.QDialogButtonBox(self.centralwidget)
         self.buttonBox.setGeometry(QtCore.QRect(280, 645, 176, 27))
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+#        self.buttonBox.setStyleSheet("background-color:%s;" % COLOR)
 
     def initLabels(self):
         self.label1 = QtGui.QLabel(self.centralwidget)
@@ -166,6 +184,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label1.setFont(font)
         self.label1.setObjectName(_fromUtf8("label2"))
+        self.label1.setStyleSheet("color : %s" % COLOR)
         self.label2 = QtGui.QLabel(self.centralwidget)
         self.label2.setGeometry(QtCore.QRect(160, 580, 350, 20))
         font = QtGui.QFont()
@@ -174,6 +193,7 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label2.setFont(font)
         self.label2.setObjectName(_fromUtf8("label2"))
+        self.label2.setStyleSheet("color : %s" % COLOR)
         self.label3 = QtGui.QLabel(self.centralwidget)
         self.label3.setGeometry(QtCore.QRect(310, 580, 350, 20))
         font = QtGui.QFont()
@@ -182,11 +202,12 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.label3.setFont(font)
         self.label3.setObjectName(_fromUtf8("label3"))
+        self.label3.setStyleSheet("color : %s" % COLOR)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Control de Gastos", None))
         self.setActions()
-        self.commandLinkButton.setText(_translate("MainWindow", "Guardar Cambios", None))
+#        self.commandLinkButton.setText(_translate("MainWindow", "Guardar Cambios", None))
         self.setColumnName()
         self.uploadingInformation()
         self.addCosts()
