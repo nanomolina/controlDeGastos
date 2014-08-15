@@ -19,7 +19,7 @@ COL_PRICE = 1
 COL_DATE = 2
 COL_BUYER = 3
 ORANGE = "#FF4000"
-COLOR = "#FF4000"
+COLOR = "#F57B00"#E900F5"
 
 try:
     import application_rc3
@@ -44,7 +44,10 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(462, 715)
-#        MainWindow.setStyleSheet("background-color:#F5A9F2;")
+        style = "QMainWindow {background-color:" \
+                " QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #616161," \
+                " stop: 0.5 #505050, stop: 0.6 #434343, stop:1 #656565);}"
+        MainWindow.setStyleSheet(style)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.initToolBar(MainWindow)
@@ -54,7 +57,6 @@ class Ui_MainWindow(object):
         self.initInputs()
         self.initButtons()
         self.initLabels()
-        
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -62,7 +64,6 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.button_accepted)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.tableWidget.scrollToBottom)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), self.button_rejected)
-#        QtCore.QObject.connect(self.commandLinkButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.save_changes)
         QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("triggered()")), self.nada)
         QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.nada)
         QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL(_fromUtf8("triggered()")), self.save_changes)
@@ -100,14 +101,42 @@ class Ui_MainWindow(object):
         self.calendarWidget.setGeometry(QtCore.QRect(5, 0, 448, 180))
         self.calendarWidget.setObjectName(_fromUtf8("calendarWidget"))
         self.calendarWidget.setGridVisible(True)
-#        self.calendarWidget.setStyleSheet("color:%s;" % COLOR)
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.calendarWidget.setFont(font)
+        style = "background-color: #575756; padding: 1px;" \
+                " border-style: solid; border: 1px solid #656565;" \
+                " border-radius: 5; color: #363534;" \
+                " alternate-background-color: #BDB9B5"
+        self.calendarWidget.setStyleSheet(style)
         self.today = self.calendarWidget.selectedDate()
 
     def initTableWidget(self):
         self.tableWidget = QtGui.QTableWidget(self.centralwidget)
         self.tableWidget.setGeometry(QtCore.QRect(5, 190, 451, 370))
         self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
-        self.tableWidget.setStyleSheet("color:%s;" % COLOR)
+        style = "QTableWidget {background-color:" \
+                " QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1," \
+                " stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #BDB9B5);" \
+                " top: 5px; border: 1px solid #656565;" \
+                " gridline-color: #BAB0A7} " \
+                "QHeaderView::section {background-color:" \
+                " QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #616161," \
+                " stop: 0.5 #505050, stop: 0.6 #434343, stop:1 #656565);" \
+                " color: %s; padding-left: 4px;" \
+                " border: 1px solid #6c6c6c;}" \
+                "QTableCornerButton::section {" \
+                " background: #505050; border: 2px outset #505050;} " \
+                "QScrollBar:horizontal {background:" \
+                " QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1," \
+                " stop: 0.0 #121212, stop: 0.2 #282828, stop: 1 #484848);} " \
+                "QScrollBar::vertical {background:" \
+                " QLinearGradient( x1: 1, y1: 0, x2: 1, y2: 0," \
+                " stop: 0.0 #121212, stop: 0.2 #282828," \
+                " stop: 1 #484848);}" % COLOR
+        self.tableWidget.setStyleSheet(style)
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -143,37 +172,58 @@ class Ui_MainWindow(object):
         self.line.setFrameShape(QtGui.QFrame.HLine)
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
+        self.line.setStyleSheet("border: 1px solid #656565")
 
     def initInputs(self):
         self.lineEdit_1 = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit_1.setGeometry(QtCore.QRect(10, 610, 113, 27))
         self.lineEdit_1.setObjectName(_fromUtf8("lineEdit_1"))
-        self.lineEdit_1.setStyleSheet("color:%s;" % COLOR)
+        style = "QLineEdit {background-color:" \
+                " QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1," \
+                " stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #BDB9B5);" \
+                " padding: 1px; border-style: solid;" \
+                " border: 1px solid #656565; border-radius: 5;}"
+        self.lineEdit_1.setStyleSheet(style)
         self.doubleSpinBox = QtGui.QDoubleSpinBox(self.centralwidget)
         self.doubleSpinBox.setGeometry(QtCore.QRect(130, 610, 62, 27))
         self.doubleSpinBox.setMaximum(MAXIMUM)
         self.doubleSpinBox.setObjectName(_fromUtf8("doubleSpinBox"))
-        self.doubleSpinBox.setStyleSheet("color:%s;" % COLOR)
+        style = "QDoubleSpinBox {background-color:" \
+                " QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1," \
+                " stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #BDB9B5);" \
+                " padding: 1px; border-style: solid;" \
+                " border: 1px solid #656565; border-radius: 5;} " \
+                "QDoubleSpinBox::up-button {border: 1px solid #656565;} " \
+                "QDoubleSpinBox::down-button {border: 1px solid #656565;}"
+        self.doubleSpinBox.setStyleSheet(style)
         self.dateTimeEdit = QtGui.QDateTimeEdit(self.centralwidget)
         self.dateTimeEdit.setGeometry(QtCore.QRect(200, 610, 131, 27))
         self.dateTimeEdit.setObjectName(_fromUtf8("dateTimeEdit"))
-        self.dateTimeEdit.setStyleSheet("color:%s;" % COLOR)
+        style = "QDateTimeEdit {background-color:" \
+                " QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1," \
+                " stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #BDB9B5);" \
+                " padding: 1px; border-style: solid;" \
+                " border: 1px solid #656565; border-radius: 5;} " \
+                "QDateTimeEdit::up-button {border: 1px solid #656565;} " \
+                "QDateTimeEdit::down-button {border: 1px solid #656565;}"
+        self.dateTimeEdit.setStyleSheet(style)
         self.time_zero = self.dateTimeEdit.time()
         self.lineEdit_2 = QtGui.QLineEdit(self.centralwidget)
         self.lineEdit_2.setGeometry(QtCore.QRect(340, 610, 113, 27))
         self.lineEdit_2.setObjectName(_fromUtf8("lineEdit_2"))
-        self.lineEdit_2.setStyleSheet("color:%s;" % COLOR)
+        style = "QLineEdit {background-color:" \
+                " QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1," \
+                " stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #BDB9B5);" \
+                " padding: 1px; border-style: solid;" \
+                " border: 1px solid #656565; border-radius: 5;}"
+        self.lineEdit_2.setStyleSheet(style)
 
     def initButtons(self):
-#        self.commandLinkButton = QtGui.QCommandLinkButton(self.centralwidget)
-#        self.commandLinkButton.setGeometry(QtCore.QRect(10, 635, 185, 41))
-#        self.commandLinkButton.setObjectName(_fromUtf8("commandLinkButton"))
-#        self.commandLinkButton.setStyleSheet("background-color:%s;" % COLOR)
         self.buttonBox = QtGui.QDialogButtonBox(self.centralwidget)
         self.buttonBox.setGeometry(QtCore.QRect(280, 645, 176, 27))
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-#        self.buttonBox.setStyleSheet("background-color:%s;" % COLOR)
+        self.buttonBox.setStyleSheet("background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #BDB9B5);")
 
     def initLabels(self):
         self.label1 = QtGui.QLabel(self.centralwidget)
@@ -207,7 +257,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "Control de Gastos", None))
         self.setActions()
-#        self.commandLinkButton.setText(_translate("MainWindow", "Guardar Cambios", None))
         self.setColumnName()
         self.uploadingInformation()
         self.addCosts()
