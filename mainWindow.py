@@ -11,6 +11,7 @@
 from PyQt4 import QtCore, QtGui
 from database import *
 import unicodedata
+import openWindow
 
 SALARY = 1200
 MAXIMUM = 9999.99
@@ -71,6 +72,9 @@ class Ui_MainWindow(object):
 
     def nada(self):
         print "hola"
+#        app = QtGui.QApplication(sys.argv)
+#        ex = App()
+#        sys.exit(app.exec_())
 
     def initToolBar(self, MainWindow):
         self.toolBar = QtGui.QToolBar(MainWindow)

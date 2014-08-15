@@ -1,12 +1,12 @@
 import sys
 from PyQt4 import QtGui
-from mainWindow import Ui_MainWindow
+from openWindow import Ui_Form
 
 class App(QtGui.QMainWindow):
 
     def __init__(self):
         super(App, self).__init__()
-        self.ui = Ui_MainWindow()
+        self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.show()
 
