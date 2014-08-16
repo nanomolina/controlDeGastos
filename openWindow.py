@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'openWindow.ui'
+# Form implementation generated from reading ui file 'new.ui'
 #
-# Created: Fri Aug 15 01:58:10 2014
+# Created: Fri Aug 15 21:30:13 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
+import sys
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -23,41 +24,27 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(237, 370)
-        self.listWidget = QtGui.QListWidget(Form)
-        self.listWidget.setGeometry(QtCore.QRect(20, 40, 181, 261))
-        self.listWidget.setStyleSheet(_fromUtf8("color: rgb(255, 170, 0);"))
-        self.listWidget.setObjectName(_fromUtf8("listWidget"))
-        item = QtGui.QListWidgetItem()
-        self.listWidget.addItem(item)
-        self.buttonBox = QtGui.QDialogButtonBox(Form)
-        self.buttonBox.setGeometry(QtCore.QRect(20, 320, 176, 27))
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName(_fromUtf8("Dialog"))
+        Dialog.resize(224, 360)
+        self.buttonBox = QtGui.QDialogButtonBox(Dialog)
+        self.buttonBox.setGeometry(QtCore.QRect(30, 310, 181, 32))
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-        self.label = QtGui.QLabel(Form)
-        self.label.setGeometry(QtCore.QRect(20, 0, 181, 41))
-        self.label.setStyleSheet(_fromUtf8(""))
+        self.label = QtGui.QLabel(Dialog)
+        self.label.setGeometry(QtCore.QRect(20, 20, 161, 21))
         self.label.setObjectName(_fromUtf8("label"))
+        self.listWidget = QtGui.QListWidget(Dialog)
+        self.listWidget.setGeometry(QtCore.QRect(10, 50, 201, 251))
+        self.listWidget.setObjectName(_fromUtf8("listWidget"))
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(Dialog)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(_translate("Form", "Form", None))
-        __sortingEnabled = self.listWidget.isSortingEnabled()
-        self.listWidget.setSortingEnabled(False)
-        item = self.listWidget.item(0)
-        item.setText(_translate("Form", "New Item", None))
-        self.listWidget.setSortingEnabled(__sortingEnabled)
-        self.label.setText(_translate("Form", "Abrir Base de Datos", None))
-
-#class App(QtGui.QMainWindow):
-
-#    def __init__(self):
-#        super(App, self).__init__()
-#        self.ui = Ui_Form()
-#        self.ui.setupUi(self)
-#        self.show()
+    def retranslateUi(self, Dialog):
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog", None))
+        self.label.setText(_translate("Dialog", "Abrir Base de Datos", None))

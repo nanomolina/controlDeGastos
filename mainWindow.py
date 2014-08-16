@@ -9,9 +9,9 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
+from openWindow import Ui_Dialog
 from database import *
-import unicodedata
-import openWindow
+import unicodedata, sys
 
 SALARY = 1200
 MAXIMUM = 9999.99
@@ -71,10 +71,11 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def nada(self):
-        print "hola"
-#        app = QtGui.QApplication(sys.argv)
-#        ex = App()
-#        sys.exit(app.exec_())
+        dialog = QtGui.QDialog()
+        dialog.ui = Ui_Dialog()
+        dialog.ui.setupUi(dialog)
+        dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        dialog.exec_()
 
     def initToolBar(self, MainWindow):
         self.toolBar = QtGui.QToolBar(MainWindow)
