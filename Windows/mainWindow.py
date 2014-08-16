@@ -76,7 +76,9 @@ class Ui_MainWindow(object):
         dialog.ui = Ui_Dialog_Open()
         dialog.ui.setupUi(dialog)
         dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        print "exec open"
         dialog.exec_()
+        print dialog.ui.getNameToOpen()
 
     def action_new(self):
         dialog = QtGui.QDialog()

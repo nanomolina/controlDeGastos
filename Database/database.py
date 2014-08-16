@@ -4,10 +4,12 @@
 import sqlite3
 import sys
 
+DB_NAME = 'Database/.Database/GASTOS.db'
+
 class Database():
 
-    def __init__(self):
-        self.conn = sqlite3.connect('Database/.Database/GASTOS.db')
+    def __init__(self, db_name=DB_NAME):
+        self.conn = sqlite3.connect(db_name)
         self.cursor = self.conn.cursor()
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS gastos4
                                (producto text, precio real, 
