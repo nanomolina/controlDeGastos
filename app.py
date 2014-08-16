@@ -1,6 +1,6 @@
 import sys
 from PyQt4 import QtGui
-from mainWindow import Ui_MainWindow
+from Windows.mainWindow import Ui_MainWindow
 
 class App(QtGui.QMainWindow):
 

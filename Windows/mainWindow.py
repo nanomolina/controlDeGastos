@@ -10,7 +10,7 @@
 
 from PyQt4 import QtCore, QtGui
 from openWindow import Ui_Dialog
-from database import *
+from Database.database import Database
 import unicodedata, sys
 
 SALARY = 1200
@@ -23,9 +23,9 @@ ORANGE = "#FF4000"
 COLOR = "#F57B00"#E900F5"
 
 try:
-    import application_rc3
+    import Icons.application_rc3
 except ImportError:
-    import application_rc2
+    import Icons.application_rc2
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -65,12 +65,12 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.button_accepted)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.tableWidget.scrollToBottom)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), self.button_rejected)
-        QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("triggered()")), self.nada)
-        QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.nada)
+        QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("triggered()")), self.open_)
+        QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.open_)
         QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL(_fromUtf8("triggered()")), self.save_changes)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def nada(self):
+    def open_(self):
         dialog = QtGui.QDialog()
         dialog.ui = Ui_Dialog()
         dialog.ui.setupUi(dialog)
