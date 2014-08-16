@@ -16,6 +16,15 @@ class Database():
         self.conn.commit()
         self.id = self.get_row_count()
 
+    def create_db(self, db_name):
+        self.conn = sqlite3.connect(db_name)
+        self.cursor = self.conn.cursor()
+        self.cursor.execute("""CREATE TABLE IF NOT EXISTS gastos
+                               (producto text, precio real, 
+                               fecha text, nombre text, id int, 
+                               PRIMARY KEY(id))""")
+        self.conn.commit()
+
     def insert_data(self, producto, precio, fecha, nombre):
         self.cursor.execute("INSERT INTO gastos4 VALUES (?, ?, ?, ?, ?)", 
                             (producto, precio, fecha, nombre, self.id))

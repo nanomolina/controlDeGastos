@@ -9,7 +9,8 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-from openWindow import Ui_Dialog
+from openWindow import Ui_Dialog_Open
+from newWindow import Ui_Dialog_New
 from Database.database import Database
 import unicodedata, sys
 
@@ -20,7 +21,7 @@ COL_PRICE = 1
 COL_DATE = 2
 COL_BUYER = 3
 ORANGE = "#FF4000"
-COLOR = "#F57B00"#E900F5"
+COLOR = "#F57B00"
 
 try:
     import Icons.application_rc3
@@ -65,14 +66,21 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.button_accepted)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.tableWidget.scrollToBottom)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), self.button_rejected)
-        QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("triggered()")), self.open_)
-        QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.open_)
+        QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL(_fromUtf8("triggered()")), self.action_new)
+        QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL(_fromUtf8("triggered()")), self.action_open)
         QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL(_fromUtf8("triggered()")), self.save_changes)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def open_(self):
+    def action_open(self):
         dialog = QtGui.QDialog()
-        dialog.ui = Ui_Dialog()
+        dialog.ui = Ui_Dialog_Open()
+        dialog.ui.setupUi(dialog)
+        dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+        dialog.exec_()
+
+    def action_new(self):
+        dialog = QtGui.QDialog()
+        dialog.ui = Ui_Dialog_New()
         dialog.ui.setupUi(dialog)
         dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         dialog.exec_()
@@ -228,7 +236,10 @@ class Ui_MainWindow(object):
         self.buttonBox.setGeometry(QtCore.QRect(280, 645, 176, 27))
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
-        self.buttonBox.setStyleSheet("background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #BDB9B5);")
+        style = "background-color: QLinearGradient(" \
+                " x1: 0, y1: 0, x2: 0, y2: 1," \
+                " stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #BDB9B5);"
+        self.buttonBox.setStyleSheet(style)
 
     def initLabels(self):
         self.label1 = QtGui.QLabel(self.centralwidget)
