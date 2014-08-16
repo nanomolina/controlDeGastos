@@ -7,7 +7,7 @@ import sys
 class Database():
 
     def __init__(self):
-        self.conn = sqlite3.connect('Database/GASTOS.db')
+        self.conn = sqlite3.connect('Database/.Database/GASTOS.db')
         self.cursor = self.conn.cursor()
         self.cursor.execute("""CREATE TABLE IF NOT EXISTS gastos4
                                (producto text, precio real, 
