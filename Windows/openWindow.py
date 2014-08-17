@@ -33,6 +33,8 @@ class Ui_Dialog_Open(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(243, 397)
+        self.db_name = ""
+        self.button_accepted = False
         style = "QDialog {background-color:" \
                 " QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #616161," \
                 " stop: 0.5 #505050, stop: 0.6 #434343, stop:1 #656565);}"
@@ -126,6 +128,10 @@ class Ui_Dialog_Open(object):
         currentItem = self.listWidget.currentItem()
         name = currentItem.text()
         self.db_name = name + ".db"
+        self.button_accepted = True
 
     def getNameToOpen(self):
-        return self.db_name
+        return join(DB_PATH, str(self.db_name))
+
+    def accepted(self):
+        return self.button_accepted

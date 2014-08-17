@@ -8,6 +8,11 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
+from os import getcwd
+from os.path import join, isfile
+from messageWindow import Ui_Dialog_Message
+
+DB_PATH = "Database/.Database"
 COLOR = "#F57B00"
 
 try:
@@ -26,8 +31,12 @@ except AttributeError:
 
 class Ui_Dialog_New(object):
     def setupUi(self, Dialog):
+        self.dialog = Dialog
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(406, 189)
+        self.value = 0
+        self.db_name = ""
+        self.button_accepted = False
         style = "QDialog {background-color:" \
                 " QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #616161," \
                 " stop: 0.5 #505050, stop: 0.6 #434343, stop:1 #656565);}"
@@ -38,7 +47,7 @@ class Ui_Dialog_New(object):
         self.initButtonBox()
 
         self.retranslateUi(Dialog)
-        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), Dialog.accept)
+        QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("accepted()")), self.buttonAccepted)
         QtCore.QObject.connect(self.buttonBox, QtCore.SIGNAL(_fromUtf8("rejected()")), Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -102,7 +111,7 @@ class Ui_Dialog_New(object):
     def initInputs(self):
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
-        #---dateEDit1---
+        #---dateEdit1---
         self.dateEdit1 = QtGui.QDateEdit(self.verticalLayoutWidget)
         self.dateEdit1.setObjectName(_fromUtf8("dateEdit1"))
         self.horizontalLayout_2.addWidget(self.dateEdit1)
@@ -114,7 +123,7 @@ class Ui_Dialog_New(object):
                 "QDateEdit::up-button {border: 1px solid #656565;} " \
                 "QDateEdit::down-button {border: 1px solid #656565;}"
         self.dateEdit1.setStyleSheet(style)
-        #---dateEDit1---
+        #---dateEdit2---
         self.dateEdit2 = QtGui.QDateEdit(self.verticalLayoutWidget)
         self.dateEdit2.setDate(QtCore.QDate(2014, 1, 1))
         self.dateEdit2.setCalendarPopup(False)
@@ -171,3 +180,31 @@ class Ui_Dialog_New(object):
         self.label4.setText(_translate("Dialog", "Saldo Inicial:", None))
         self.dateEdit1.setDisplayFormat(_translate("Dialog", "MMMM", None))
         self.dateEdit2.setDisplayFormat(_translate("Dialog", "yyyy", None))
+
+    def buttonAccepted(self):
+        date = self.dateEdit1.date()
+        month = str(date.toString("MMMM"))
+        date = self.dateEdit2.date()
+        year = str(date.toString("yyyy"))
+        self.value = float(self.doubleSpinBox.value())
+        db_name = str(month + year + ".db")
+        current_path = getcwd()
+        db_path = join(DB_PATH, db_name)
+        self.db_path = join(current_path, db_path)
+        print "PATH: %s" % self.db_path
+        print isfile(self.db_path)
+        if isfile(self.db_path):
+            dialog = QtGui.QDialog()
+            dialog.ui = Ui_Dialog_Message()
+            dialog.ui.setupUi(dialog)
+            dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+            dialog.exec_()
+        else:
+            self.button_accepted = True
+            self.dialog.accept()
+
+    def getDbNameAndValue(self):
+        return self.db_path, self.value
+
+    def accepted(self):
+        return self.button_accepted
