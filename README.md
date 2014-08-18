@@ -1,7 +1,17 @@
 controlDeGastos
 ===============
 
-Es un pequeño programa con interfaz grafica escrito en python para control de gastos.
+Este es un pequeño programa con interfaz gráfica escrito en python para el control de gastos. 
+Este proyecto empezó con el motivo de que llegaba fin de mes y nunca sabia en que se me había ido la plata.
+Por este motivo lo desarrollé con el propósito de mantenerme al tanto de todos mis gastos. :)
+
+El programa funciona mediante una base de datos que es proporcionada por una libreria de python (sqlite3),
+en la cual irémos almacenando los datos de las varias tablas.
+
+Fue diseñado de tal forma de que se lleve una cuenta por cada mes/año con la opción de insertar el presupuesto 
+incial que tendremos disponible durante todo el mes.
+
+La insersión de datos a la tabla de datos es de 4 tipos: Producto, Precio, Fecha y Comprador.
 
 
 Plataformas
