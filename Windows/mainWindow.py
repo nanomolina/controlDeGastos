@@ -11,6 +11,7 @@
 from PyQt4 import QtCore, QtGui
 from openWindow import Ui_Dialog_Open
 from newWindow import Ui_Dialog_New
+from saveMessage import Ui_Dialog_SaveMsg
 from Database.database import Database
 import unicodedata, sys
 
@@ -71,28 +72,38 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL(_fromUtf8("triggered()")), self.save_changes)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def action_open(self):
+    def execOpenWindow(self):
         dialog = QtGui.QDialog()
         dialog.ui = Ui_Dialog_Open()
         dialog.ui.setupUi(dialog)
         dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         dialog.exec_()
-
         if dialog.ui.accepted():
             db_name = dialog.ui.getNameToOpen()
             self.db = Database(db_name)
             self.uploadTable()
-            self.salary = self.db.get_salary()
-            self.addCosts()
             self.uploadLabels()
+            self.rows_added = 0
 
-    def action_new(self):
+    def action_open(self):
+        if self.changesWereSaved():
+            self.execOpenWindow()
+        else:
+            dialog = QtGui.QDialog()
+            dialog.ui = Ui_Dialog_SaveMsg()
+            dialog.ui.setupUi(dialog)
+            dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+            dialog.exec_()
+            if dialog.ui.mustSave():
+                self.save_changes()
+            self.execOpenWindow()
+
+    def execNewWindow(self):
         dialog = QtGui.QDialog()
         dialog.ui = Ui_Dialog_New()
         dialog.ui.setupUi(dialog)
         dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         dialog.exec_()
-
         if dialog.ui.accepted():
             db_name, value_init = dialog.ui.getDbNameAndValue()
             self.db = Database(db_name)
@@ -101,6 +112,20 @@ class Ui_MainWindow(object):
             self.salary = self.db.get_salary()
             self.addCosts()
             self.uploadLabels()
+            self.rows_added = 0
+
+    def action_new(self):
+        if self.changesWereSaved():
+            self.execNewWindow()
+        else:
+            dialog = QtGui.QDialog()
+            dialog.ui = Ui_Dialog_SaveMsg()
+            dialog.ui.setupUi(dialog)
+            dialog.setAttribute(QtCore.Qt.WA_DeleteOnClose)
+            dialog.exec_()
+            if dialog.ui.mustSave():
+                self.save_changes()
+            self.execNewWindow()
 
     def initToolBar(self, MainWindow):
         self.toolBar = QtGui.QToolBar(MainWindow)
@@ -277,11 +302,7 @@ class Ui_MainWindow(object):
         self.setActions()
         self.setColumnName()
         self.uploadTable()
-        self.salary = self.db.get_salary()
-        self.addCosts()
-        self.label1.setText(_translate("MainWindow", "Inicial: %6.2f" % self.salary, None))
-        self.label2.setText(_translate("MainWindow", "Gastos: %6.2f" % self.expense, None))
-        self.label3.setText(_translate("MainWindow", "Resto: %6.2f" % self.rest, None))
+        self.uploadLabels()
 
     def setActions(self):
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar", None))
@@ -390,9 +411,14 @@ class Ui_MainWindow(object):
         self.rest = self.salary - self.expense
 
     def uploadLabels(self):
+        self.salary = self.db.get_salary()
+        self.addCosts()
         self.label1.setText(_translate("MainWindow", "Inicial: %6.2f" % self.salary, None))
         self.label2.setText(_translate("MainWindow", "Gastos: %6.2f" % self.expense, None))
         self.label3.setText(_translate("MainWindow", "Resto: %6.2f" % self.rest, None))
+
+    def changesWereSaved(self):
+        return not self.rows_added > 0
 
 def delete_accent(string):
     s = ''.join((c for c in unicodedata.normalize('NFD',unicode(string)) if unicodedata.category(c) != 'Mn'))

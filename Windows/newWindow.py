@@ -192,7 +192,7 @@ class Ui_Dialog_New(object):
         db_path = join(DB_PATH, db_name)
         self.db_path = join(current_path, db_path)
         print "PATH: %s" % self.db_path
-        print isfile(self.db_path)
+        print "this file exist: " , str(isfile(self.db_path))
         if isfile(self.db_path):
             dialog = QtGui.QDialog()
             dialog.ui = Ui_Dialog_Message()
