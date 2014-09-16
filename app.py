@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import sys
 from PyQt4 import QtGui
 from Windows.mainWindow import Ui_MainWindow
